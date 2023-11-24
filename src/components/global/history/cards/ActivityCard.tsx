@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { useUpdateActivityMutation } from "@/redux/services/activityApi";
+import { useUpdateActivityMutation } from "@/redux/services/activity.api";
 import { ActivityInterface } from "@/types/interface";
 import { Icon } from "@iconify/react";
 import moment from "moment";
@@ -17,7 +17,7 @@ export default function ActivityCard({ activity }: Props) {
 
   const handleMarkDoneActivity = async () => {
     await updateActivity({
-      id: activity._id,
+      id: activity.id,
       update: {
         completed_on: activity.completed_on ? null : new Date(),
       },
@@ -90,7 +90,7 @@ export default function ActivityCard({ activity }: Props) {
       <EdiActivityPrompt
         open={isEditActivityPromptOpen}
         setOpen={setEditActivityPromptOpen}
-        activityId={activity._id}
+        activityId={activity.id}
       />
     </div>
   );

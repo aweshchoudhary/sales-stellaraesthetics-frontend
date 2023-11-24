@@ -8,10 +8,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useAppSelector } from "@/hooks/redux-hooks";
-import { selectCurrentUser } from "@/redux/features/authSlice";
-import { useCreatePipelineMutation } from "@/redux/services/pipelineApi";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
+import { useCreatePipelineMutation } from "@/redux/services/pipeline.api";
 import { useFormik } from "formik";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 
@@ -44,7 +44,7 @@ export default function AddNewPipeline({ open, setOpen }: Props) {
   const loggedUser = useAppSelector(selectCurrentUser);
 
   const handleSubmit = async (values: NewPipelineInterface) => {
-    await createNewPipeline({ ...values, owner: loggedUser._id });
+    await createNewPipeline({ ...values, owner: loggedUser?.uid ?? "" });
     handleCancel();
   };
 

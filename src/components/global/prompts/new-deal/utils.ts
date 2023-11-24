@@ -4,7 +4,7 @@ import * as yup from "yup";
 export interface NewDealInterface
   extends Omit<
     DealInterface,
-    | "_id"
+    | "id"
     | "updatedAt"
     | "createdAt"
     | "contacts"

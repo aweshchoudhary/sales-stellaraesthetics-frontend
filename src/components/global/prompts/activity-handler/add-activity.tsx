@@ -5,13 +5,14 @@ import {
   activityInitialValues,
   activityValidationSchema,
 } from "./form-utils";
-import { useCreateActivityMutation } from "@/redux/services/activityApi";
+import { useCreateActivityMutation } from "@/redux/services/activity.api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ActivityForm from "./activity-form";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "@/redux/features/authSlice";
-import { SelectInterface, UserInterface } from "@/types/interface";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
+import { SelectInterface } from "@/types/interface";
+import { User } from "firebase/auth";
 
 export default function AddActivity({
   pipelineId,
@@ -20,7 +21,7 @@ export default function AddActivity({
   dateSelectRange,
   setDialogOpen,
 }: AddProps) {
-  const loggedUser: UserInterface = useSelector(selectCurrentUser);
+  const loggedUser: User | null = useSelector(selectCurrentUser);
 
   const formik = useFormik({
     initialValues: activityInitialValues,
@@ -37,8 +38,8 @@ export default function AddActivity({
   const [selectedPerformer, setSelectedPerformer] = useState<SelectInterface>(
     loggedUser
       ? {
-          label: loggedUser.fullname,
-          value: loggedUser._id,
+          label: loggedUser?.displayName ?? "",
+          value: loggedUser?.uid ?? "",
         }
       : ({} as SelectInterface)
   );
@@ -47,7 +48,9 @@ export default function AddActivity({
     useCreateActivityMutation();
 
   const handleSubmit = async (values: CreateActivityInterface) => {
-    await createActivity({ ...values, creator: loggedUser._id });
+    if (loggedUser?.uid) {
+      await createActivity({ ...values, creator: loggedUser.uid });
+    }
   };
   const handleCancel = () => {
     formik.resetForm();

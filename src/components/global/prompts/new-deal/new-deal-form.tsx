@@ -5,7 +5,7 @@ import PipelineSelect from "@/components/global/select/PipelineSelect";
 import FormError from "@/components/form/FormError";
 import LabelSelect from "@/components/global/select/LabelSelect";
 import StageSelect from "@/components/global/select/StageSelect";
-import { useGetStagesQuery } from "@/redux/services/stageApi";
+import { useGetStagesQuery } from "@/redux/services/stage.api";
 import { FormikProps } from "formik";
 import { PipelineInterface, SelectInterface } from "@/types/interface";
 import { DialogFooter } from "@/components/ui/dialog";
@@ -14,7 +14,7 @@ import DatePicker from "@/components/form/DatePicker";
 import { Label } from "@/components/ui/label";
 import CurrencySelect from "@/components/global/select/CurrencySelect";
 import { useAppSelector } from "@/hooks/redux-hooks";
-import { selectCurrentUser } from "@/redux/features/authSlice";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
 
 type Props = {
   formik: FormikProps<NewDealInterface>;
@@ -39,7 +39,7 @@ export default function NewDealForm({
 
   const { data: stages, ...stagesStates } = useGetStagesQuery({
     data: true,
-    filters: JSON.stringify([{ id: "pipelineId", value: pipeline._id }]),
+    filters: JSON.stringify([{ id: "pipelineId", value: pipeline.id }]),
     sort: JSON.stringify([{ id: "position", desc: false }]),
   });
 
@@ -47,14 +47,14 @@ export default function NewDealForm({
 
   const [selectedPipeline, setSelectedPipeline] = useState<SelectInterface>({
     label: pipeline.name,
-    value: pipeline._id,
+    value: pipeline.id,
   } as SelectInterface);
 
   const [selectedStage, setSelectedStage] = useState<SelectInterface>(
     selectedCurrentStage ??
       ({
         label: stages?.data && stages.data[0].name,
-        value: stages?.data && stages.data[0]._id,
+        value: stages?.data && stages.data[0].id,
       } as SelectInterface)
   );
 
@@ -90,7 +90,7 @@ export default function NewDealForm({
   }, [expectedClosingDate, formik.setFieldValue]);
 
   useEffect(() => {
-    formik.setFieldValue("creator", loggedUser._id);
+    formik.setFieldValue("creator", loggedUser?.uid ?? "");
   }, [loggedUser]);
 
   return (
@@ -116,7 +116,7 @@ export default function NewDealForm({
           <PipelineSelect
             selectedData={selectedPipeline}
             setSelectedData={setSelectedPipeline}
-            compare={[{ label: pipeline.name, value: pipeline._id }]}
+            compare={[{ label: pipeline.name, value: pipeline.id }]}
           />
           <FormError formik={formik} name="pipelineId" />
         </div>
@@ -131,7 +131,7 @@ export default function NewDealForm({
           <StageSelect
             selectedData={selectedStage}
             setSelectedData={setSelectedStage}
-            pipelineId={pipeline._id}
+            pipelineId={pipeline.id}
           />
           <FormError formik={formik} name="currentStage" />
         </div>

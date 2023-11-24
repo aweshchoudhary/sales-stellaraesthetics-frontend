@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useLazyGetStagesQuery } from "@/redux/services/stageApi";
+import { useLazyGetStagesQuery } from "@/redux/services/stage.api";
 import { SelectInterface, StageInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
@@ -41,7 +41,7 @@ export default function StageSelect({
       res.data?.data.map((item: StageInterface) => {
         const option = {
           label: item.name,
-          value: item._id,
+          value: item.id,
         };
         if (!compare.length) {
           otherOptions.options.push(option);
@@ -79,7 +79,7 @@ export default function StageSelect({
         const items = data.data.map((item: StageInterface) => {
           return {
             label: item.name,
-            value: item._id,
+            value: item.id,
           };
         });
         setSearchedData(items);

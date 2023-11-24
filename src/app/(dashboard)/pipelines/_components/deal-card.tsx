@@ -1,4 +1,4 @@
-import { useGetDealQuery } from "@/redux/services/dealApi";
+import { useGetDealQuery } from "@/redux/services/deal.api";
 import { ContactInterface } from "@/types/interface";
 import { Icon } from "@iconify/react";
 import moment from "moment";

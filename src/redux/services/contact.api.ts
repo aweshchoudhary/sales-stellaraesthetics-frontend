@@ -1,49 +1,43 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const contactApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getContact: builder.query({
-      query: (id) => "/contact/" + id,
-      providesTags: ["contact"],
-      transformResponse: (response) => {
+    getContact: builder.query<any, string>({
+      query: (id) => `/contact/${id}`,
+      providesTags: (result, error, id) => [{ type: "contact", id }],
+      transformResponse: (response: { data: any }) => {
         return response.data;
       },
     }),
-    getContacts: builder.query({
+    getContacts: builder.query<any[], Record<string, any>>({
       query: (params) => ({
         url: "/contact/",
         params,
       }),
       providesTags: ["contact"],
-      transformResponse: (response) => {
-        return response.data;
-      },
     }),
-    createContact: builder.mutation({
+    createContact: builder.mutation<any, any>({
       query: (data) => ({
         url: "/contact/",
         method: "POST",
         body: data,
       }),
-      transformResponse: (response) => {
-        return response.data;
-      },
-      invalidatesTags: ["contact"],
+      invalidatesTags: [{ type: "contact" }],
     }),
-    updateContact: builder.mutation({
+    updateContact: builder.mutation<any, any>({
       query: (data) => ({
-        url: "/contact/" + data.id,
+        url: `/contact/${data.id}`,
         method: "PUT",
-        body: data.body,
+        body: data,
       }),
-      invalidatesTags: ["contact"],
+      invalidatesTags: [{ type: "contact" }],
     }),
-    deleteContact: builder.mutation({
+    deleteContact: builder.mutation<void, string>({
       query: (id) => ({
-        url: "/contact/" + id,
+        url: `/contact/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["contact"],
+      invalidatesTags: [{ type: "contact" }],
     }),
   }),
 });

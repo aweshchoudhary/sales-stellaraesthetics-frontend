@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const itemApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,7 +13,7 @@ export const itemApi = mainApi.injectEndpoints({
     getItem: builder.query({
       query: (id) => "/item/get-item/" + id,
       providesTags: ["item"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),
@@ -23,7 +23,7 @@ export const itemApi = mainApi.injectEndpoints({
         params,
       }),
       providesTags: ["item"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),

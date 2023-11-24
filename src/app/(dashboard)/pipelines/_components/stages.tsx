@@ -1,5 +1,5 @@
 "use client";
-import { useGetStagesQuery } from "@/redux/services/stageApi";
+import { useGetStagesQuery } from "@/redux/services/stage.api";
 import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Stage from "./stage";
@@ -11,7 +11,7 @@ import {
 import AddStagePrompt from "@/components/global/prompts/add-stage-prompt";
 import { Button } from "@/components/ui/button";
 import { useUpdateDealStageMutation } from "@/redux/services/dealApi";
-import { selectCurrentUser } from "@/redux/features/authSlice";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
 import { useSelector } from "react-redux";
 
 type Props = {

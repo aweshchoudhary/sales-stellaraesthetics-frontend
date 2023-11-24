@@ -1,6 +1,6 @@
 "use client";
 // Import required modules and components
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 import DealSelect from "@/components/global/select/DealSelect";
 import ContactSelect from "@/components/global/select/ContactSelect";
@@ -73,7 +73,9 @@ const FileForm: React.FC<Props> = ({
             name="file"
             className="cursor-pointer"
             placeholder="Select file to upload"
-            onChange={(e) => setSelectedFile(e.target.files[0])}
+            onChange={(e) =>
+              setSelectedFile(e.target.files?.length ? e.target.files[0] : null)
+            }
           />
           {states.isError ? (
             <div className="mt-2 text-red-600 text-sm flex items-center gap-1">

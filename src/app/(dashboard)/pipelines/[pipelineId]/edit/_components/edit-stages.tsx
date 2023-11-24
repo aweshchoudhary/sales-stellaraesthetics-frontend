@@ -2,7 +2,7 @@
 import {
   useGetStagesQuery,
   useReorderStageMutation,
-} from "@/redux/services/stageApi";
+} from "@/redux/services/stage.api";
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import EditStage from "./edit-stage";

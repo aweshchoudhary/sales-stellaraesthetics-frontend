@@ -32,7 +32,7 @@ export default function EdiActivityPrompt({
         <div className="overflow-y-auto h-[500px]">
           <AddNote
             setDialogOpen={setOpen}
-            pipelineId={pipeline._id}
+            pipelineId={pipeline.id}
             contacts={contacts}
             deals={deals}
           />

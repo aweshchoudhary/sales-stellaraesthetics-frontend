@@ -5,18 +5,17 @@ import * as yup from "yup";
 
 import { AlertCircle } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import FormInput from "@/components/form/FormInput";
-import { isFetchBaseQueryError } from "@/lib/helper";
-import { useDispatch } from "react-redux";
-import { setCredentials } from "@/redux/features/authSlice";
+import { setCredentials } from "@/redux/features/auth.slice";
 import { LoginCredentialTypes } from "@/types/interface";
 
 import { auth } from "@/lib/fireabase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/hooks/redux-hooks";
 
 type Props = {};
 
@@ -45,7 +44,7 @@ export default function LoginPage({}: Props) {
     onSubmit: (values: LoginCredentialTypes) => handleLogin(values),
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const handleLogin = async (values: LoginCredentialTypes) => {
@@ -56,13 +55,8 @@ export default function LoginPage({}: Props) {
         values.email,
         values.password
       );
-      const user = {
-        uid: res.user.uid,
-        email: res.user.email,
-        fullname: res.user.displayName,
-      };
       const token = await res.user.getIdToken();
-      dispatch(setCredentials({ accessToken: token, user }));
+      dispatch(setCredentials({ accessToken: token, user: res.user }));
       toast.success("Logged In Successfully");
       router.push("/");
     } catch (err) {

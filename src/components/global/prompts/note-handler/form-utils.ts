@@ -18,7 +18,7 @@ export type EditProps = {
 export interface CreateNoteInterface
   extends Omit<
     NoteInterface,
-    "_id" | "createdAt" | "updatedAt" | "contacts" | "deals" | "creator"
+    "id" | "createdAt" | "updatedAt" | "contacts" | "deals" | "creator"
   > {
   contacts: string[];
   deals: string[];

@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const noteApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,7 +16,7 @@ export const noteApi = mainApi.injectEndpoints({
         params: data.params,
       }),
       providesTags: ["note"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),
@@ -26,9 +26,6 @@ export const noteApi = mainApi.injectEndpoints({
         params,
       }),
       providesTags: ["note"],
-      transformResponse: (response) => {
-        return response.data;
-      },
     }),
     updateNote: builder.mutation({
       query: (data) => ({

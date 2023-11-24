@@ -1,12 +1,13 @@
 import { useFormik } from "formik";
 import { AddProps, CreateFileInterface } from "./form-utils";
-import { useAddFileMutation } from "@/redux/services/fileApi";
+import { useAddFileMutation } from "@/redux/services/file.api";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import FileForm from "./file-form";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "@/redux/features/authSlice";
-import { SelectInterface, UserInterface } from "@/types/interface";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
+import { SelectInterface } from "@/types/interface";
+import { User } from "firebase/auth";
 
 export default function AddFile({
   pipelineId,
@@ -14,7 +15,7 @@ export default function AddFile({
   deals,
   setDialogOpen,
 }: AddProps) {
-  const loggedUser: UserInterface = useSelector(selectCurrentUser);
+  const loggedUser: User | null = useSelector(selectCurrentUser);
 
   const [selectedContacts, setSelectedContacts] = useState<SelectInterface[]>(
     contacts ?? []
@@ -25,8 +26,8 @@ export default function AddFile({
   const [selectedUploader, setSelectedUploader] = useState<SelectInterface>(
     loggedUser
       ? {
-          label: loggedUser.fullname + " (You)",
-          value: loggedUser._id,
+          label: loggedUser?.displayName + " (You)",
+          value: loggedUser?.uid ?? "",
         }
       : ({} as SelectInterface)
   );
@@ -70,7 +71,7 @@ export default function AddFile({
     newFormData.append("file", selectedFile as File);
     newFormData.append("dealId", dealIds);
     newFormData.append("contactId", contactIds);
-    newFormData.append("uploader", loggedUser._id);
+    newFormData.append("uploader", loggedUser?.uid ?? "");
 
     await uploadFile(newFormData);
   };

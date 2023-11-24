@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import FormInput from "@/components/form/FormInput";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
-import { useCreateStageMutation } from "@/redux/services/stageApi";
+import { useCreateStageMutation } from "@/redux/services/stage.api";
 import * as yup from "yup";
 import { StageInterface } from "@/types/interface";
 

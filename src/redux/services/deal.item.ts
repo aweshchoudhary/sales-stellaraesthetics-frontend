@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const dealItemApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,7 +16,7 @@ export const dealItemApi = mainApi.injectEndpoints({
         params,
       }),
       providesTags: ["dealItem"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),
@@ -26,7 +26,7 @@ export const dealItemApi = mainApi.injectEndpoints({
         params,
       }),
       providesTags: ["dealItem"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),

@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const notificationApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -16,7 +16,7 @@ export const notificationApi = mainApi.injectEndpoints({
         params: data.params,
       }),
       providesTags: ["notification"],
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         return response.data;
       },
     }),
@@ -26,9 +26,6 @@ export const notificationApi = mainApi.injectEndpoints({
         params,
       }),
       providesTags: ["notification"],
-      transformResponse: (response) => {
-        return response.data;
-      },
     }),
     updateNotification: builder.mutation({
       query: (data) => ({

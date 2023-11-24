@@ -3,7 +3,7 @@ import GoBack from "@/components/global/GoBack";
 import React, { useState } from "react";
 import Stages from "../_components/stages";
 import { useParams, usePathname } from "next/navigation";
-import { useGetPipelineQuery } from "@/redux/services/pipelineApi";
+import { useGetPipelineQuery } from "@/redux/services/pipeline.api";
 import {
   DropdownMenu,
   DropdownMenuContent,

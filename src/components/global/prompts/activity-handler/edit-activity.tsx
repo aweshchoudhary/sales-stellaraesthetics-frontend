@@ -8,17 +8,18 @@ import {
 import {
   useLazyGetActivityQuery,
   useUpdateActivityMutation,
-} from "@/redux/services/activityApi";
+} from "@/redux/services/activity.api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ActivityForm from "./activity-form";
 import {
+  ActivityInterface,
   ContactInterface,
   DealInterface,
   SelectInterface,
-  UserInterface,
 } from "@/types/interface";
 import ModalLoader from "@/components/global/loaders/ModalLoader";
+import { User } from "firebase/auth";
 
 export default function EditActivity({ activityId, setDialogOpen }: EditProps) {
   const [contacts, setContacts] = useState<SelectInterface[]>([]);
@@ -65,23 +66,28 @@ export default function EditActivity({ activityId, setDialogOpen }: EditProps) {
   useEffect(() => {
     const handleGetActivity = async (id: string) => {
       const res = await getActivity({
-        id: id,
-        params: { populate: "deals contacts performer" },
+        id,
+        filters: { populate: "deals contacts performer" },
       });
-      const { _id, updatedAt, createdAt, creator, __v, ...activity }: any =
-        res.data;
+      const {
+        id: ID,
+        updatedAt,
+        createdAt,
+        creator,
+        ...activity
+      }: ActivityInterface = res.data;
       const deals = activity.deals.map((deal: DealInterface) => ({
         label: deal.title,
-        value: deal._id,
+        value: deal.id,
       }));
       const contacts = activity.contacts.map((contact: ContactInterface) => ({
         label: contact.contactPerson,
-        value: contact._id,
+        value: contact.id,
       }));
-      const performer: UserInterface = activity.performer;
+      const performer: string = activity.performer;
       setContacts(contacts);
       setDeals(deals);
-      setPerformer({ label: performer.fullname, value: performer._id });
+      // setPerformer({ label: performer.displ, value: performer.id });
       formik.setValues(activity);
     };
 

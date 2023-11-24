@@ -1,34 +1,32 @@
-import { mainApi } from "./mainApi";
+import { ApiReq } from "@/types/interface";
+import { mainApi } from "./main.api";
 
 export const activityApi = mainApi.injectEndpoints({
-  endpoints: (builder: any) => ({
-    createActivity: builder.mutation({
-      query: (data: any) => ({
+  endpoints: (builder) => ({
+    createActivity: builder.mutation<any, any>({
+      query: (data) => ({
         url: "/activities",
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["activities"],
+      invalidatesTags: ["activity"],
     }),
-    getActivity: builder.query({
+    getActivity: builder.query<any, ApiReq>({
       query: (data: any) => ({
         url: "/activities/" + data.id,
         params: data.params,
       }),
-      providesTags: ["activities"],
-      transformResponse: (response: any) => {
+      providesTags: ["activity"],
+      transformResponse: (response: { data: any }) => {
         return response.data;
       },
     }),
-    getActivities: builder.query({
-      query: (params: any) => ({
+    getActivities: builder.query<any[], Omit<ApiReq, "id">>({
+      query: (params) => ({
         url: "/activities",
         params,
       }),
-      providesTags: ["activities"],
-      transformResponse: (response: any) => {
-        return response.data;
-      },
+      providesTags: ["activity"],
     }),
     updateActivity: builder.mutation({
       query: (data: any) => ({
@@ -36,14 +34,14 @@ export const activityApi = mainApi.injectEndpoints({
         method: "PUT",
         body: data.update,
       }),
-      invalidatesTags: ["activities"],
+      invalidatesTags: ["activity"],
     }),
     deleteActivity: builder.mutation({
       query: (id: any) => ({
         url: "/activities/" + id,
         method: "DELETE",
       }),
-      invalidatesTags: ["activities"],
+      invalidatesTags: ["activity"],
     }),
   }),
 });

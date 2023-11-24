@@ -3,11 +3,11 @@ import DeletePrompt from "@/components/prompts/DeletePrompt";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import BASE_URL from "@/lib/baseurl";
-import { useDeleteFileMutation } from "@/redux/services/fileApi";
+import { useDeleteFileMutation } from "@/redux/services/file.api";
 import { FileInterface } from "@/types/interface";
 import { Icon } from "@iconify/react";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
 
@@ -41,26 +41,22 @@ export default function FileCard({ file }: Props) {
   }
 
   async function handleDeleteFile() {
-    await deleteFile(file._id);
+    await deleteFile(file.id);
   }
 
   useEffect(() => {
     let isMounted = true;
-    if (isMounted && isSuccess) {
-      toast.success(
-        activity.completed_on
-          ? "Activity marked as uncompleted"
-          : "Activity marked as completed"
-      );
+    if (isMounted && deleteStates.isSuccess) {
+      toast.success("File deleted");
     }
-    if (isError) {
+    if (deleteStates.isError) {
       toast.error("Got error while marking Activity");
-      console.log(error);
+      console.log(deleteStates.error);
     }
     return () => {
       isMounted = false;
     };
-  }, [isSuccess, error, isError, activity.completed_on]);
+  }, [deleteStates.isSuccess, deleteStates.error, deleteStates.isError]);
 
   return (
     <div className="flex gap-3">

@@ -1,7 +1,6 @@
 "use client";
 import GoBack from "@/components/global/GoBack";
-import { Button } from "@/components/ui/button";
-import { useGetPipelineQuery } from "@/redux/services/pipelineApi";
+import { useGetPipelineQuery } from "@/redux/services/pipeline.api";
 import { useParams } from "next/navigation";
 import React from "react";
 import EditStages from "./_components/edit-stages";

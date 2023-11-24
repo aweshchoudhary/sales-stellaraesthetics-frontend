@@ -1,13 +1,13 @@
 import BASE_URL from "@/lib/baseurl";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setCredentials, logOut } from "../features/authSlice";
+import { logOut } from "../features/auth.slice";
 import { auth } from "@/lib/fireabase";
 import { signOut } from "firebase/auth";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
   credentials: "include",
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, { getState }: any) => {
     const token = getState().auth.accessToken;
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);
@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
   let result = await baseQuery(args, api, extraOptions);
 
   const status = result?.error?.status;

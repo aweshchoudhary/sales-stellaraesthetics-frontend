@@ -7,13 +7,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useCreateDealMutation } from "@/redux/services/dealApi";
+import { useCreateDealMutation } from "@/redux/services/deal.api";
 import { toast } from "react-toastify";
 import { NewDealInterface, newDealInitialValues, newDealSchema } from "./utils";
 import NewDealForm from "./new-deal-form";
 import ContactSelect from "@/components/global/select/ContactSelect";
 import { Button } from "@/components/ui/button";
-import { useCreateContactMutation } from "@/redux/services/contactApi";
+import { useCreateContactMutation } from "@/redux/services/contact.api";
 import {
   NewContactInterface,
   newContactInitialValues,

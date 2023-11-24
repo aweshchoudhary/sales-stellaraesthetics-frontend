@@ -1,5 +1,5 @@
 import { GetArgInterface, PipelineInterface } from "@/types/interface";
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const pipelineApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({

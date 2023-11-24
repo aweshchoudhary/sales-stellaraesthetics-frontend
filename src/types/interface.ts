@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface LoginCredentialTypes {
   email: string;
   password: string;
@@ -14,19 +16,27 @@ export interface BaseModel {
   updatedAt: Date;
 }
 
+export interface ApiReq {
+  id?: string;
+  filters: ApiFilters;
+}
+
+export interface ApiFilters {
+  filters?: any;
+  sort?: any;
+  limit?: number;
+  populate?: any;
+  select?: any;
+  start?: number;
+}
+
 export interface PipelineInterface extends BaseModel {
   name: string;
-  stages: string[];
-  deals: string[];
-  owner: string;
+  desc?: string;
+  stages?: string[];
   assignees: string[];
-}
-export interface UserInterface extends BaseModel {
-  fullname: string;
-  username: string;
-  email: string;
-  password: string;
-  role: string;
+  deals?: string[];
+  owner: string;
 }
 
 export interface StageInterface extends BaseModel {
@@ -36,14 +46,6 @@ export interface StageInterface extends BaseModel {
   pipelineId: string;
   deals: string[];
 }
-
-//  "id": "06e56f37-5dce-4537-b72a-ca4529fd2443",
-//  "name": "Test Stage",
-//  "desc": null,
-//  "position": 1,
-//  "pipelineId": "28447a3f-baf2-4f53-98ab-eeddae923dad",
-//  "createdAt": "2023-11-09T17:17:25.048Z",
-//  "updatedAt": "2023-11-09T17:17:25.048Z"
 
 export interface DealInterface extends BaseModel {
   title: string;
@@ -61,7 +63,7 @@ export interface DealInterface extends BaseModel {
   activities: ActivityInterface[];
   files: FileInterface[];
   mails: string;
-  creator: UserInterface;
+  creator: User;
 }
 export interface LabelInterface extends BaseModel {
   name: string;
@@ -92,12 +94,12 @@ export interface ActivityInterface extends BaseModel {
   endDateTime: Date;
   location?: string;
   taskUrl?: string;
-  performer: UserInterface;
-  creator: UserInterface;
+  performer: string;
+  creator: string;
   deals: DealInterface[];
   contacts: ContactInterface[];
   involved_contacts: ContactInterface[];
-  involved_users: UserInterface[];
+  involved_users: string[];
   icon: string;
   completed_on: Date | null;
   googleEventId?: string;
@@ -109,7 +111,7 @@ export interface NoteInterface extends BaseModel {
   noteBody: string;
   deals: DealInterface[];
   contacts: ContactInterface[];
-  creator: UserInterface;
+  creator: User;
 }
 
 export interface FileInterface extends BaseModel {
@@ -120,9 +122,9 @@ export interface FileInterface extends BaseModel {
   file?: File;
   dealId: DealInterface[];
   contactId: ContactInterface[];
-  sent_to_users: UserInterface[];
+  sent_to_users: User[];
   sent_to_contacts: ContactInterface[];
-  uploader: UserInterface;
+  uploader: User;
 }
 
 export interface GetArgInterface {

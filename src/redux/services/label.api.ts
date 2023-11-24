@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const labelApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,16 +13,13 @@ export const labelApi = mainApi.injectEndpoints({
     getLabel: builder.query({
       query: (id) => "/label/" + id,
       providesTags: ["label"],
-      transformResponse: (res) => {
+      transformResponse: (res: any) => {
         return res.data;
       },
     }),
     getLabels: builder.query({
       query: () => "/label/",
       providesTags: ["label"],
-      transformResponse: (res) => {
-        return res.data;
-      },
     }),
     updateLabel: builder.mutation({
       query: (data) => ({

@@ -4,7 +4,7 @@ import GoBack from "@/components/global/GoBack";
 import AddNewPipeline from "@/components/global/prompts/new-pipeline/add-pipeline-prompt";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useGetPipelinesQuery } from "@/redux/services/pipelineApi";
+import { useGetPipelinesQuery } from "@/redux/services/pipeline.api";
 import { PipelineInterface } from "@/types/interface";
 import { Icon } from "@iconify/react";
 import { ColumnDef } from "@tanstack/react-table";

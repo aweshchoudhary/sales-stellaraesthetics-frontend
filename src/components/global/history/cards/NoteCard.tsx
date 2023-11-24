@@ -35,7 +35,7 @@ export default function NoteCard({ note }: Props) {
       <NoteEditPrompt
         open={updateDialogOpen}
         setOpen={setUpdateDialogOpen}
-        noteId={note._id}
+        noteId={note.id}
       />
     </div>
   );

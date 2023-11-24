@@ -6,18 +6,19 @@ import {
   noteInitialValues,
   noteValidationSchema,
 } from "./form-utils";
-import { useCreateNoteMutation } from "@/redux/services/noteApi";
+import { useCreateNoteMutation } from "@/redux/services/note.api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import NoteForm from "./note-form";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "@/redux/features/authSlice";
-import { SelectInterface, UserInterface } from "@/types/interface";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
+import { SelectInterface } from "@/types/interface";
+import { User } from "firebase/auth";
 
 // Component for adding a new note
 export default function AddNote({ pipelineId, contacts, deals }: AddProps) {
   // Get the logged-in user from Redux store
-  const loggedUser: UserInterface = useSelector(selectCurrentUser);
+  const loggedUser: User | null = useSelector(selectCurrentUser);
 
   // Formik setup for managing form state and validation
   const formik = useFormik({
@@ -39,7 +40,7 @@ export default function AddNote({ pipelineId, contacts, deals }: AddProps) {
 
   // Handle form submission
   const handleSubmit = async (values: CreateNoteInterface) => {
-    await createNote({ ...values, creator: loggedUser._id });
+    await createNote({ ...values, creator: loggedUser?.uid ?? "" });
   };
   // Handle cancel button click
   const handleCancel = () => {

@@ -1,27 +1,34 @@
-import { getLocalStorageItem } from "@/lib/localStorageHelper";
-import { UserInterface } from "@/types/interface";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getLocalStorageItem } from "@/lib/localstorage.helper";
+import { RootState } from "../store";
+import { User } from "firebase/auth";
 
+// Define the types for the auth slice
 interface AuthSliceInterface {
   accessToken: string | null;
-  user: any | null;
+  user: User | null;
 }
 
+// Define the initial state
 const initialState: AuthSliceInterface = {
   accessToken: getLocalStorageItem("accessToken") || null,
   user: getLocalStorageItem("user", true) || null,
 };
 
-const authSlice: any = createSlice({
+// Create the auth slice
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCredentials: (state, { payload }) => {
-      if (payload?.accessToken) {
+    setCredentials: (
+      state,
+      { payload }: PayloadAction<{ accessToken?: string; user?: User }>
+    ) => {
+      if (payload.accessToken) {
         state.accessToken = payload.accessToken;
         localStorage.setItem("accessToken", payload.accessToken);
       }
-      if (payload?.user) {
+      if (payload.user) {
         state.user = payload.user;
         localStorage.setItem("user", JSON.stringify(payload.user));
       }
@@ -35,9 +42,10 @@ const authSlice: any = createSlice({
   },
 });
 
+// Export the actions and reducer
 export const { setCredentials, logOut } = authSlice.actions;
-
 export default authSlice.reducer;
 
-export const selectCurrentUser = (state: any) => state.auth.user;
-export const selectCurrentToken = (state: any) => state.auth.accessToken;
+// Define selectors with proper types
+export const selectCurrentUser = (state: RootState) => state.auth.user;
+export const selectCurrentToken = (state: RootState) => state.auth.accessToken;

@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useCreateContactMutation } from "@/redux/services/contactApi";
+import { useCreateContactMutation } from "@/redux/services/contact.api";
 import { toast } from "react-toastify";
 import {
   NewContactInterface,

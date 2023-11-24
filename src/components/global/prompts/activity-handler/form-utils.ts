@@ -26,7 +26,7 @@ export type EditProps = {
 export interface CreateActivityInterface
   extends Omit<
     ActivityInterface,
-    | "_id"
+    | "id"
     | "createdAt"
     | "updatedAt"
     | "performer"

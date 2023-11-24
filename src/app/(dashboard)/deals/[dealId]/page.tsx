@@ -5,13 +5,14 @@ import React, { useEffect, useState } from "react";
 import DealSidebar from "./_components/deal-sidebar";
 import TabsContainer from "./_components/TabsContainer";
 import { useParams } from "next/navigation";
-import { useLazyGetDealQuery } from "@/redux/services/dealApi";
 import FocusActivities from "@/components/global/history/FocusActivities";
 import HistoryTabs from "@/components/global/history/HistoryTabs";
-import { useLazyGetNotesQuery } from "@/redux/services/noteApi";
-import { useLazyGetActivitiesQuery } from "@/redux/services/activityApi";
-import { useLazyGetFilesQuery } from "@/redux/services/fileApi";
 import { ContactInterface } from "@/types/interface";
+
+import { useLazyGetDealQuery } from "@/redux/services/deal.api";
+import { useLazyGetNotesQuery } from "@/redux/services/note.api";
+import { useLazyGetActivitiesQuery } from "@/redux/services/activity.api";
+import { useLazyGetFilesQuery } from "@/redux/services/file.api";
 
 type Props = {};
 
@@ -51,17 +52,17 @@ export default function DealPage({}: Props) {
           <DealSidebar deal={data} />
           <div className="py-5 px-10 flex-1 h-full overflow-y-auto border-l">
             <TabsContainer
-              deals={[{ label: data.title, value: data._id }]}
+              deals={[{ label: data.title, value: data.id }]}
               contacts={data.contacts.map((item: ContactInterface) => {
                 return {
                   label: `${item.company} (${item.contactPerson})`,
-                  value: item._id,
+                  value: item.id,
                 };
               })}
               pipelineId={data.pipelineId}
             />
-            <FocusActivities dealId={data._id} />
-            <HistoryTabsContainer dealId={data._id} />
+            <FocusActivities dealId={data.id} />
+            <HistoryTabsContainer dealId={data.id} />
           </div>
         </section>
       </div>
@@ -85,16 +86,16 @@ const HistoryTabsContainer = ({ dealId }: { dealId: string }) => {
         populate: "creator deals contacts",
       });
       await getActivities({
-        filters: JSON.stringify([
-          { id: "deals", value: { $in: [dealId] } },
-          { id: "completed_on", value: { $not: { $eq: null } } },
-        ]),
-        data: true,
-        populate: "performer deals contacts",
+        filters: {
+          filters: JSON.stringify([
+            { id: "deals", value: { $in: [dealId] } },
+            { id: "completed_on", value: { $not: { $eq: null } } },
+          ]),
+          populate: "performer deals contacts",
+        },
       });
       await getFiles({
         filters: JSON.stringify([{ id: "dealId", value: { $in: [dealId] } }]),
-        data: true,
         populate: "uploader",
       });
       setLoading(false);

@@ -1,6 +1,6 @@
 import React from "react";
 import ActivityCard from "./cards/ActivityCard";
-import { useGetActivitiesQuery } from "@/redux/services/activityApi";
+import { useGetActivitiesQuery } from "@/redux/services/activity.api";
 import { ActivityInterface } from "@/types/interface";
 
 type Props = {
@@ -17,11 +17,11 @@ export default function FocusActivities({ dealId, contactId }: Props) {
       },
       { id: "completed_on", value: null },
     ]),
-    data: true,
     populate: "performer contacts deals",
   };
-  const { data, isLoading, isFetching, isSuccess } =
-    useGetActivitiesQuery(query);
+  const { data, isLoading, isFetching, isSuccess } = useGetActivitiesQuery({
+    filters: query,
+  });
 
   if (isSuccess)
     return (

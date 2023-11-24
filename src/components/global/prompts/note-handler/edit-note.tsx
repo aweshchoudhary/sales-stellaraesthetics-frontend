@@ -6,7 +6,7 @@ import NoteForm from "./note-form";
 import {
   useLazyGetNoteQuery,
   useUpdateNoteMutation,
-} from "@/redux/services/noteApi";
+} from "@/redux/services/note.api";
 import {
   CreateNoteInterface,
   EditProps,
@@ -86,11 +86,11 @@ export default function EditNote({ noteId, setDialogOpen }: EditProps) {
         const { deals, contacts, ...note } = res.data;
         const formattedDeals = deals.map((deal: DealInterface) => ({
           label: deal.title,
-          value: deal._id,
+          value: deal.id,
         }));
         const formattedContacts = contacts.map((contact: ContactInterface) => ({
           label: contact.contactPerson,
-          value: contact._id,
+          value: contact.id,
         }));
 
         // Update the state variables and set formik values

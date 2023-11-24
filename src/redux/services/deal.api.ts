@@ -1,4 +1,4 @@
-import { mainApi } from "./mainApi";
+import { mainApi } from "./main.api";
 
 export const dealApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({

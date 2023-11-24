@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useLazyGetDealsQuery } from "@/redux/services/dealApi";
+import { useLazyGetDealsQuery } from "@/redux/services/deal.api";
 import { DealInterface, SelectInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
@@ -53,7 +53,7 @@ export default function DealSelect({
       data?.data.forEach((item: DealInterface) => {
         const option = {
           label: item.title,
-          value: item._id,
+          value: item.id,
         };
         if (!compare.length) {
           otherOptions.options.push(option);
@@ -98,7 +98,7 @@ export default function DealSelect({
         const items = data.data.map((item: any) => {
           return {
             label: item.title,
-            value: item._id,
+            value: item.id,
           };
         });
         setSearchedData(items);

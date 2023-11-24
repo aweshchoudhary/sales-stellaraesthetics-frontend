@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useLazyGetLabelsQuery } from "@/redux/services/labelApi";
+import { useLazyGetLabelsQuery } from "@/redux/services/label.api";
 import { LabelInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import chroma from "chroma-js";
@@ -37,7 +37,7 @@ export default function LabelSelect({
       data.map((item: LabelInterface) => {
         const option = {
           label: item.name,
-          value: item._id,
+          value: item.id,
         };
         if (!compare.length) {
           otherOptions.options.push(option);
@@ -73,7 +73,7 @@ export default function LabelSelect({
         const items = data.map((item: LabelInterface) => {
           return {
             label: item.name,
-            value: item._id,
+            value: item.id,
           };
         });
         setSearchedData(items);

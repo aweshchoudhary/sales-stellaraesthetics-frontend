@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import {
   useDeleteStageMutation,
   useUpdateStageMutation,
-} from "@/redux/services/stageApi";
+} from "@/redux/services/stage.api";
 import { StageInterface } from "@/types/interface";
 import { Icon } from "@iconify/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -23,7 +23,7 @@ import {
 import AddStage from "@/components/global/prompts/add-stage-prompt";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useCreateStageMutation } from "@/redux/services/stageApi";
+import { useCreateStageMutation } from "@/redux/services/stage.api";
 import AddStagePrompt from "@/components/global/prompts/add-stage-prompt";
 import DeletePrompt from "@/components/prompts/DeletePrompt";
 

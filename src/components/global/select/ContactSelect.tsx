@@ -1,10 +1,6 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useLazyGetContactsQuery } from "@/redux/services/contactApi";
-import {
-  ContactInterface,
-  DealInterface,
-  SelectInterface,
-} from "@/types/interface";
+import { useLazyGetContactsQuery } from "@/redux/services/contact.api";
+import { ContactInterface, SelectInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 
@@ -21,7 +17,7 @@ export default function ContactSelect({
   formik?: any;
 }) {
   const [search, setSearch] = useState("");
-  const [searchedData, setSearchedData] = useState<DealInterface[]>([]);
+  const [searchedData, setSearchedData] = useState<SelectInterface[]>([]);
   const [getContacts, { isLoading, isFetching, isError }] =
     useLazyGetContactsQuery();
 
@@ -43,7 +39,7 @@ export default function ContactSelect({
       res.data.map((item: ContactInterface) => {
         const option = {
           label: item.contactPerson,
-          value: item._id,
+          value: item.id,
         };
         if (!compare.length) {
           otherOptions.options.push(option);
@@ -74,13 +70,13 @@ export default function ContactSelect({
     const preFetchData = async () => {
       const { data } = await getContacts({ data: true });
       if (data?.length !== 0) {
-        const items = data.map((item: ContactInterface) => {
+        const items = data?.map((item: ContactInterface) => {
           return {
             label: item.contactPerson,
-            value: item._id,
+            value: item.id,
           };
         });
-        setSearchedData(items);
+        setSearchedData(items ?? []);
       }
     };
     preFetchData();

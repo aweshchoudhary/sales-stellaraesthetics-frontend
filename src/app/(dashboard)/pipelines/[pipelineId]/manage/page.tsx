@@ -5,7 +5,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   useAssignPipelineUserMutation,
   useGetPipelineQuery,
-} from "@/redux/services/pipelineApi";
+} from "@/redux/services/pipeline.api";
 import {
   PipelineInterface,
   SelectInterface,
@@ -78,7 +78,7 @@ function PipelineManage({}: Props) {
         accessorKey: "fullname",
         header: "Name",
         cell: ({ row }) => (
-          <Link href={ITEM_URL + row.original._id} className="capitalize">
+          <Link href={ITEM_URL + row.original.id} className="capitalize">
             {row.getValue("fullname")}
           </Link>
         ),
@@ -88,7 +88,7 @@ function PipelineManage({}: Props) {
         accessorKey: "email",
         header: "Email",
         cell: ({ row }) => (
-          <Link href={ITEM_URL + row.original._id} className="capitalize">
+          <Link href={ITEM_URL + row.original.id} className="capitalize">
             {row.getValue("email")}
           </Link>
         ),
@@ -186,7 +186,7 @@ const AssignUserPrompt = ({
 
   const handleAssignUser = async () => {
     await assignUser({
-      id: pipeline._id,
+      id: pipeline.id,
       update: { newUserId: selectedUser.value },
     });
     handleCancel();

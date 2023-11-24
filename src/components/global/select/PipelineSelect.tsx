@@ -1,5 +1,5 @@
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useLazyGetPipelinesQuery } from "@/redux/services/pipelineApi";
+import { useLazyGetPipelinesQuery } from "@/redux/services/pipeline.api";
 import { PipelineInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
@@ -36,7 +36,7 @@ export default function PipelineSelect({
       res.data?.data.map((item: PipelineInterface) => {
         const option = {
           label: item.name,
-          value: item._id,
+          value: item.id,
         };
         if (!compare.length) {
           otherOptions.options.push(option);
@@ -72,7 +72,7 @@ export default function PipelineSelect({
         const items = data.data.map((item: PipelineInterface) => {
           return {
             label: item.name,
-            value: item._id,
+            value: item.id,
           };
         });
         setSearchedData(items);

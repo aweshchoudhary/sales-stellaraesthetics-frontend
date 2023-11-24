@@ -17,9 +17,9 @@ import { ActivityInterface, UserInterface } from "@/types/interface";
 import {
   useGetActivitiesQuery,
   useUpdateActivityMutation,
-} from "@/redux/services/activityApi";
+} from "@/redux/services/activity.api";
 import { useAppSelector } from "@/hooks/redux-hooks";
-import { selectCurrentUser } from "@/redux/features/authSlice";
+import { selectCurrentUser } from "@/redux/features/auth.slice";
 import AddActivityPrompt from "@/components/global/prompts/activity-handler/add-activity-prompt";
 
 type Props = {

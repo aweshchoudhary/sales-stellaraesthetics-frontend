@@ -3,7 +3,7 @@ import * as yup from "yup";
 
 export type NewContactInterface = Omit<
   ContactInterface,
-  "_id" | "updatedAt" | "createdAt"
+  "id" | "updatedAt" | "createdAt"
 >;
 
 export const newContactInitialValues: NewContactInterface = {
