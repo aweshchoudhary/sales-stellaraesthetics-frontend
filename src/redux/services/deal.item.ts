@@ -4,7 +4,7 @@ export const dealItemApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     createDealItem: builder.mutation({
       query: (data) => ({
-        url: "/deal-item/",
+        url: "/deal-items/",
         method: "POST",
         body: data,
       }),
@@ -12,7 +12,7 @@ export const dealItemApi = mainApi.injectEndpoints({
     }),
     getDealItem: builder.query({
       query: ({ params, id }) => ({
-        url: "/deal-item/get-deal-item/" + id,
+        url: "/deal-items/get-deal-item/" + id,
         params,
       }),
       providesTags: ["dealItem"],
@@ -22,7 +22,7 @@ export const dealItemApi = mainApi.injectEndpoints({
     }),
     getDealProductsServices: builder.query({
       query: (params) => ({
-        url: "/deal-item/get-deal-items/",
+        url: "/deal-items/get-deal-items/",
         params,
       }),
       providesTags: ["dealItem"],
@@ -32,7 +32,7 @@ export const dealItemApi = mainApi.injectEndpoints({
     }),
     updateDealItem: builder.mutation({
       query: (data) => ({
-        url: "/deal-item/update/" + data.id,
+        url: "/deal-items/update/" + data.id,
         method: "PUT",
         body: data.update,
       }),
@@ -40,7 +40,7 @@ export const dealItemApi = mainApi.injectEndpoints({
     }),
     deleteDealItem: builder.mutation({
       query: (id) => ({
-        url: "/deal-item/delete/" + id,
+        url: "/deal-items/delete/" + id,
         method: "DELETE",
       }),
       invalidatesTags: ["dealItem"],

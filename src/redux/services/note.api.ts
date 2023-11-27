@@ -4,7 +4,7 @@ export const noteApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     createNote: builder.mutation({
       query: (data) => ({
-        url: "/note/",
+        url: "/notes/",
         method: "POST",
         body: data,
       }),
@@ -12,7 +12,7 @@ export const noteApi = mainApi.injectEndpoints({
     }),
     getNote: builder.query({
       query: (data) => ({
-        url: "/note/" + data.id,
+        url: "/notes/" + data.id,
         params: data.params,
       }),
       providesTags: ["note"],
@@ -22,14 +22,14 @@ export const noteApi = mainApi.injectEndpoints({
     }),
     getNotes: builder.query({
       query: (params) => ({
-        url: "/note/",
+        url: "/notes/",
         params,
       }),
       providesTags: ["note"],
     }),
     updateNote: builder.mutation({
       query: (data) => ({
-        url: "/note/" + data.id,
+        url: "/notes/" + data.id,
         method: "PUT",
         body: data.update,
       }),
@@ -37,7 +37,7 @@ export const noteApi = mainApi.injectEndpoints({
     }),
     deleteNote: builder.mutation({
       query: (id) => ({
-        url: "/note/" + id,
+        url: "/notes/" + id,
         method: "DELETE",
       }),
       invalidatesTags: ["note"],

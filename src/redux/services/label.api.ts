@@ -4,26 +4,26 @@ export const labelApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     createLabel: builder.mutation({
       query: (data) => ({
-        url: "/label/",
+        url: "/labels/",
         method: "POST",
         body: data,
       }),
       invalidatesTags: ["label"],
     }),
     getLabel: builder.query({
-      query: (id) => "/label/" + id,
+      query: (id) => "/labels/" + id,
       providesTags: ["label"],
       transformResponse: (res: any) => {
         return res.data;
       },
     }),
     getLabels: builder.query({
-      query: () => "/label/",
+      query: () => "/labels/",
       providesTags: ["label"],
     }),
     updateLabel: builder.mutation({
       query: (data) => ({
-        url: "/label/" + data.id,
+        url: "/labels/" + data.id,
         method: "PUT",
         body: data.body,
       }),
@@ -31,7 +31,7 @@ export const labelApi = mainApi.injectEndpoints({
     }),
     deleteLabel: builder.mutation({
       query: (id) => ({
-        url: "/label/" + id,
+        url: "/labels/" + id,
         method: "DELETE",
       }),
       invalidatesTags: ["label"],

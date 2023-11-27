@@ -10,9 +10,9 @@ export default function NotesTab({ notes }: Props) {
   if (notes.isLoading) return <p>Loading...</p>;
 
   if (notes.isSuccess)
-    return notes.data.length ? (
+    return notes.data.data.length ? (
       <ul className="flex flex-col gap-2">
-        {notes.data.map((note: NoteInterface, index: number) => (
+        {notes.data.data.map((note: NoteInterface, index: number) => (
           <li key={index}>
             <NoteCard note={note} />
           </li>

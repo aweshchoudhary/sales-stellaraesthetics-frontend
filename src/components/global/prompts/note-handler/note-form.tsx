@@ -41,7 +41,7 @@ const NoteForm: React.FC<Props> = ({
     fieldName: string,
     items: SelectInterface[]
   ): void => {
-    if (items.length) {
+    if (items?.length) {
       const itemValues = items.map((item) => item.value);
       formik.setFieldValue(fieldName, itemValues);
     }
@@ -63,7 +63,7 @@ const NoteForm: React.FC<Props> = ({
         <FormInput
           formik={formik}
           textarea
-          name="noteBody"
+          name="note"
           title="Note Description"
         />
         <div className="mb-5">

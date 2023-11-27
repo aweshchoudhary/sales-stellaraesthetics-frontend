@@ -5,7 +5,11 @@ import Card from "./card";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@iconify/react";
 import AddNewDeal from "@/components/global/prompts/new-deal/add-deal-prompt";
-import { PipelineInterface, StageInterface } from "@/types/interface";
+import {
+  DealInterface,
+  PipelineInterface,
+  StageInterface,
+} from "@/types/interface";
 
 type Props = {
   stageId: string;
@@ -40,8 +44,10 @@ export default function Stage({ stageId, stage, pipeline }: Props) {
                 }`}
               >
                 {stage?.deals?.length
-                  ? stage.deals.map((dealId: string, index: number) => {
-                      return <Card dealId={dealId} index={index} key={index} />;
+                  ? stage.deals.map((deal: DealInterface, index: number) => {
+                      return (
+                        <Card dealId={deal.id} index={index} key={index} />
+                      );
                     })
                   : null}
               </div>
@@ -52,7 +58,7 @@ export default function Stage({ stageId, stage, pipeline }: Props) {
       <AddNewDeal
         open={newDealPromptOpen}
         setOpen={setNewDealPromptOpen}
-        currentStage={{ label: stage.name, value: stage._id }}
+        currentStage={{ label: stage.name, value: stage.id }}
         pipeline={pipeline}
       />
     </div>

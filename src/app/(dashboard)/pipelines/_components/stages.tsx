@@ -3,16 +3,13 @@ import { useGetStagesQuery } from "@/redux/services/stage.api";
 import React, { useEffect, useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import Stage from "./stage";
-import {
-  PipelineInterface,
-  StageInterface,
-  UserInterface,
-} from "@/types/interface";
+import { PipelineInterface, StageInterface } from "@/types/interface";
 import AddStagePrompt from "@/components/global/prompts/add-stage-prompt";
 import { Button } from "@/components/ui/button";
-import { useUpdateDealStageMutation } from "@/redux/services/dealApi";
+import { useUpdateDealStageMutation } from "@/redux/services/deal.api";
 import { selectCurrentUser } from "@/redux/features/auth.slice";
 import { useSelector } from "react-redux";
+import { User } from "firebase/auth";
 
 type Props = {
   pipeline: PipelineInterface;
@@ -22,13 +19,13 @@ export default function Stages({ pipeline }: Props) {
   const [stages, setStages] = useState({});
   const { data, isLoading, isFetching, isSuccess, isError, error } =
     useGetStagesQuery({
-      data: true,
-      filters: JSON.stringify([{ id: "pipelineId", value: pipeline._id }]),
+      filters: JSON.stringify([{ id: "pipelineId", value: pipeline.id }]),
       sort: JSON.stringify([{ id: "position", desc: false }]),
+      populate: JSON.stringify({ deals: true }),
     });
 
   const [updateDealStage, dealUpdateStatus] = useUpdateDealStageMutation();
-  const loggedUser: UserInterface = useSelector(selectCurrentUser);
+  const loggedUser: User | null = useSelector(selectCurrentUser);
 
   const [newStagePromptOpen, setNewStagePromptOpen] = useState<boolean>(false);
 
@@ -68,7 +65,7 @@ export default function Stages({ pipeline }: Props) {
       data?.data?.forEach((stage: StageInterface) => {
         setStages((prev) => ({
           ...prev,
-          [stage._id]: {
+          [stage.id]: {
             ...stage,
           },
         }));
@@ -103,7 +100,7 @@ export default function Stages({ pipeline }: Props) {
       </DragDropContext>
       <AddStagePrompt
         position={0}
-        pipelineId={pipeline._id}
+        pipelineId={pipeline.id}
         open={newStagePromptOpen}
         setOpen={setNewStagePromptOpen}
       />

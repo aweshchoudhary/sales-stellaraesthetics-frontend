@@ -15,18 +15,18 @@ const AllHistory = ({ activities, notes, files }: Props) => {
     let isMounted = true;
     const createHistory = () => {
       setAllHistory([]);
-      if (activities && activities?.data?.length)
-        activities.data.forEach((act: any) =>
+      if (activities && activities?.data?.data?.length)
+        activities.data.data.forEach((act: any) =>
           setAllHistory((prev: any) => [...prev, { ...act, type: "activity" }])
         );
-      if (notes && notes?.data?.length)
-        notes.data.forEach((note: any) =>
+      if (notes && notes?.data?.data?.length)
+        notes.data.data.forEach((note: any) =>
           setAllHistory((prev: any) => [...prev, { ...note, type: "note" }])
         );
-      if (files && files.length)
-        files.data.forEach((file: any) =>
-          setAllHistory((prev: any) => [...prev, { ...file, type: "file" }])
-        );
+      // if (files && files.length)
+      //   files.data.data.forEach((file: any) =>
+      //     setAllHistory((prev: any) => [...prev, { ...file, type: "file" }])
+      //   );
     };
     isMounted && createHistory();
     return () => {
@@ -43,8 +43,7 @@ const AllHistory = ({ activities, notes, files }: Props) => {
               {history.type === "activity" && (
                 <ActivityCard activity={history} />
               )}
-              {history.type === "file" && <FileCard file={history} />}
-              {/* {history.type === "email" && <EmailCard email={history} />} */}
+              {/* {history.type === "file" && <FileCard file={history} />} */}
             </li>
           );
         })

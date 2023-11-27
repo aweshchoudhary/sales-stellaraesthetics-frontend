@@ -26,7 +26,7 @@ export interface CreateNoteInterface
 }
 
 export const noteValidationSchema = yup.object().shape({
-  noteBody: yup.string().required("Note is required!"),
+  note: yup.string().required("Note is required!"),
   deals: yup
     .array()
     .of(yup.string().required("Deal title is required!")) // Validate deal title, not just "Title is required!"
@@ -40,9 +40,8 @@ export const noteValidationSchema = yup.object().shape({
 });
 
 export const noteInitialValues: CreateNoteInterface = {
-  noteBody: "",
+  note: "",
   deals: [],
   contacts: [],
-  pipelineId: "",
   creator: "",
 };

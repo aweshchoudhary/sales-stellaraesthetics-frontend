@@ -4,26 +4,56 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import DealSidebar from "./_components/deal-sidebar";
 import TabsContainer from "./_components/TabsContainer";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import FocusActivities from "@/components/global/history/FocusActivities";
 import HistoryTabs from "@/components/global/history/HistoryTabs";
-import { ContactInterface } from "@/types/interface";
+import { ContactInterface, SelectInterface } from "@/types/interface";
 
-import { useLazyGetDealQuery } from "@/redux/services/deal.api";
+import {
+  useDeleteDealMutation,
+  useLazyGetDealQuery,
+} from "@/redux/services/deal.api";
 import { useLazyGetNotesQuery } from "@/redux/services/note.api";
 import { useLazyGetActivitiesQuery } from "@/redux/services/activity.api";
 import { useLazyGetFilesQuery } from "@/redux/services/file.api";
+import { toast } from "react-toastify";
+import { useGetContactsQuery } from "@/redux/services/contact.api";
 
 type Props = {};
 
 export default function DealPage({}: Props) {
   const { dealId } = useParams();
   const [getDeal, { data, isLoading, isSuccess }] = useLazyGetDealQuery();
+  const [deleteDeal, deleteStates] = useDeleteDealMutation();
+  const contactsRes = useGetContactsQuery({
+    filters: {
+      filters: JSON.stringify([
+        { id: "deals", value: { in: data?.contacts ?? [] } },
+      ]),
+    },
+  });
+
+  const [contacts, setContacts] = useState<SelectInterface[]>([]);
+
+  const router = useRouter();
+
+  const handleDeleteDeal = async () => {
+    try {
+      await deleteDeal(dealId);
+      toast.success("Deal deleted successfully");
+      router.back();
+    } catch (err) {
+      toast.error("Error while deleting deal");
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
     const handleGetDeal = async (dealId: any) =>
-      await getDeal({ id: dealId, params: { populate: "contacts" } });
+      await getDeal({
+        id: dealId,
+      });
     dealId && isMounted && handleGetDeal(dealId);
     return () => {
       isMounted = false;
@@ -37,13 +67,17 @@ export default function DealPage({}: Props) {
           <header className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <GoBack />
-              <h1 className="text-lg font-semibold">{data.title}</h1>
+              <h1 className="text-lg font-semibold">{data.name}</h1>
             </div>
             <div className="flex items-center gap-2">
               <Button className="bg-green-600 hover:bg-green-900">Won</Button>
               <Button variant="destructive">Lost</Button>
-              <Button className="text-red-600" variant="outline">
-                Delete
+              <Button
+                className="text-red-600"
+                onClick={handleDeleteDeal}
+                variant="outline"
+              >
+                {deleteStates.isLoading ? "Deleting..." : "Delete"}
               </Button>
             </div>
           </header>
@@ -51,17 +85,17 @@ export default function DealPage({}: Props) {
         <section className="flex-1 flex items-stretch">
           <DealSidebar deal={data} />
           <div className="py-5 px-10 flex-1 h-full overflow-y-auto border-l">
-            <TabsContainer
-              deals={[{ label: data.title, value: data.id }]}
-              contacts={data.contacts.map((item: ContactInterface) => {
-                return {
-                  label: `${item.company} (${item.contactPerson})`,
-                  value: item.id,
-                };
-              })}
+            {/* <TabsContainer
+              deals={[{ label: data.name, value: data.id }]}
+              contacts={contactsRes?.data?.data?.map(
+                (contact: ContactInterface) => ({
+                  label: contact.contactPerson,
+                  value: contact.id,
+                })
+              )}
               pipelineId={data.pipelineId}
-            />
-            <FocusActivities dealId={data.id} />
+            /> */}
+            {/* <FocusActivities dealId={data.id} /> */}
             <HistoryTabsContainer dealId={data.id} />
           </div>
         </section>
@@ -81,23 +115,18 @@ const HistoryTabsContainer = ({ dealId }: { dealId: string }) => {
     const fetchHistories = async () => {
       setLoading(true);
       await getNotes({
-        filters: JSON.stringify([{ id: "deals", value: { $in: [dealId] } }]),
-        data: true,
-        populate: "creator deals contacts",
+        filters: JSON.stringify([
+          { id: "deals", value: { hasSome: [dealId] } },
+        ]),
       });
       await getActivities({
-        filters: {
-          filters: JSON.stringify([
-            { id: "deals", value: { $in: [dealId] } },
-            { id: "completed_on", value: { $not: { $eq: null } } },
-          ]),
-          populate: "performer deals contacts",
-        },
+        filters: JSON.stringify([
+          { id: "deals", value: { hasSome: [dealId] } },
+        ]),
       });
-      await getFiles({
-        filters: JSON.stringify([{ id: "dealId", value: { $in: [dealId] } }]),
-        populate: "uploader",
-      });
+      // await getFiles({
+      //   filters: JSON.stringify([{ id: "dealId", value: { in: [dealId] } }]),
+      // });
       setLoading(false);
     };
     isMounted && fetchHistories();

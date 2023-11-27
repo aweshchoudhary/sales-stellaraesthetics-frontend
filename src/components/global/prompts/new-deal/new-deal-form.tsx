@@ -38,7 +38,6 @@ export default function NewDealForm({
   >(new Date());
 
   const { data: stages, ...stagesStates } = useGetStagesQuery({
-    data: true,
     filters: JSON.stringify([{ id: "pipelineId", value: pipeline.id }]),
     sort: JSON.stringify([{ id: "position", desc: false }]),
   });
@@ -69,15 +68,12 @@ export default function NewDealForm({
   );
 
   useEffect(() => {
-    formik.setFieldValue("pipelineId", selectedPipeline.value);
-  }, [selectedPipeline, formik.setFieldValue]);
-
-  useEffect(() => {
-    selectedLabel && formik.setFieldValue("label", selectedLabel.value);
+    selectedLabel && formik.setFieldValue("labelId", selectedLabel.value);
   }, [selectedLabel, formik.setFieldValue]);
 
   useEffect(() => {
-    selectedStage && formik.setFieldValue("currentStage", selectedStage.value);
+    selectedStage &&
+      formik.setFieldValue("currentStageId", selectedStage.value);
   }, [selectedStage, formik.setFieldValue]);
 
   useEffect(() => {
@@ -92,11 +88,16 @@ export default function NewDealForm({
   useEffect(() => {
     formik.setFieldValue("creator", loggedUser?.uid ?? "");
   }, [loggedUser]);
-
   return (
     <form onSubmit={formik.handleSubmit} className="w-full">
       <div className="p-5">
-        <FormInput name="title" title="Deal Title" formik={formik} />
+        <FormInput name="name" title="Deal Title" formik={formik} />
+        <FormInput
+          name="desc"
+          title="Description"
+          formik={formik}
+          type="textarea"
+        />
         <div className="flex gap-5">
           <FormInput
             type="number"
@@ -125,7 +126,7 @@ export default function NewDealForm({
             selectedData={selectedLabel}
             setSelectedData={setSelectedLabel}
           />
-          <FormError formik={formik} name="label" />
+          <FormError formik={formik} name="labelId" />
         </div>
         <div className="mb-5">
           <StageSelect
@@ -133,7 +134,7 @@ export default function NewDealForm({
             setSelectedData={setSelectedStage}
             pipelineId={pipeline.id}
           />
-          <FormError formik={formik} name="currentStage" />
+          <FormError formik={formik} name="currentStageId" />
         </div>
         <div className="mb-5">
           <Label className="mb-2 block">Expected Closing Date</Label>

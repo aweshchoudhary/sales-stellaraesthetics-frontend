@@ -9,21 +9,6 @@ import { Icon } from "@iconify/react";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { toast } from "react-toastify";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import AddStage from "@/components/global/prompts/add-stage-prompt";
-import * as yup from "yup";
-import { useFormik } from "formik";
-import { useCreateStageMutation } from "@/redux/services/stage.api";
 import AddStagePrompt from "@/components/global/prompts/add-stage-prompt";
 import DeletePrompt from "@/components/prompts/DeletePrompt";
 
@@ -45,7 +30,7 @@ export default function EditStage({ provided, stage, pipelineId }: Props) {
   const [stageName, setStageName] = useState<string>(stage.name);
 
   async function handleUpdateStage() {
-    await updateStage({ name: stageName, stageId: stage._id });
+    await updateStage({ name: stageName, stageId: stage.id });
   }
   async function handleDeleteStage() {
     await deleteStage({ position: stage.position, pipelineId });

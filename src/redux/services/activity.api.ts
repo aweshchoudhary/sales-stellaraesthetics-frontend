@@ -21,7 +21,7 @@ export const activityApi = mainApi.injectEndpoints({
         return response.data;
       },
     }),
-    getActivities: builder.query<any[], Omit<ApiReq, "id">>({
+    getActivities: builder.query<any[], any>({
       query: (params) => ({
         url: "/activities",
         params,

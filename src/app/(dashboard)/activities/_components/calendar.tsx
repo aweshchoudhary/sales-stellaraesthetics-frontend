@@ -13,7 +13,7 @@ import {
   EventDropArg,
 } from "@fullcalendar/core";
 import moment from "moment";
-import { ActivityInterface, UserInterface } from "@/types/interface";
+import { ActivityInterface } from "@/types/interface";
 import {
   useGetActivitiesQuery,
   useUpdateActivityMutation,
@@ -21,6 +21,7 @@ import {
 import { useAppSelector } from "@/hooks/redux-hooks";
 import { selectCurrentUser } from "@/redux/features/auth.slice";
 import AddActivityPrompt from "@/components/global/prompts/activity-handler/add-activity-prompt";
+import { User } from "firebase/auth";
 
 type Props = {
   weekends: boolean;
@@ -31,12 +32,11 @@ export default function Calendar({ weekends }: Props) {
     useUpdateActivityMutation();
 
   const { data, isLoading, isFetching, isSuccess } = useGetActivitiesQuery({
-    data: true,
-    populate: "deals contacts performer",
+    filters: { populate: "deals contacts performer" },
   });
 
   // const { data: loggedUser } = useGetMeQuery();
-  const loggedUser: UserInterface = useAppSelector(selectCurrentUser);
+  const loggedUser: User | null = useAppSelector(selectCurrentUser);
 
   const [isActivityModelOpen, setIsActivityModelOpen] = useState(false);
   const [clickedActivityData, setClickedActivityData] = useState<EventClickArg>(
@@ -104,8 +104,8 @@ export default function Calendar({ weekends }: Props) {
           right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
         initialView="dayGridMonth"
-        editable={loggedUser?.role !== "member" ? true : false}
-        selectable={loggedUser?.role !== "member" ? true : false}
+        // editable={loggedUser?.role !== "member" ? true : false}
+        // selectable={loggedUser?.role !== "member" ? true : false}
         selectMirror={true}
         dayMaxEvents={true}
         weekends={weekends}
@@ -206,7 +206,7 @@ const convertData = (data: ActivityInterface[]) => {
     if (event.completed_on) backgroundColor = "bg-bg";
 
     actvitiesArr.push({
-      id: event._id,
+      id: event.id,
       title: event.title,
       start: event.startDateTime,
       end: event.endDateTime,

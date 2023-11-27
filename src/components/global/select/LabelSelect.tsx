@@ -2,7 +2,6 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useLazyGetLabelsQuery } from "@/redux/services/label.api";
 import { LabelInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
-import chroma from "chroma-js";
 import Select, { StylesConfig } from "react-select";
 
 export default function LabelSelect({
@@ -66,11 +65,9 @@ export default function LabelSelect({
 
   useEffect(() => {
     const preFetchData = async () => {
-      const { data } = await getLabels({
-        data: true,
-      });
-      if (data?.length !== 0) {
-        const items = data.map((item: LabelInterface) => {
+      const { data } = await getLabels({});
+      if (data?.data?.length > 0) {
+        const items = data.data.map((item: LabelInterface) => {
           return {
             label: item.name,
             value: item.id,
@@ -86,8 +83,8 @@ export default function LabelSelect({
     <div className="mb-5">
       <label className="block mb-1 text-sm">Labels</label>
       <Select
-        id="pipeline"
-        name="pipeline"
+        id="labelId"
+        name="labelId"
         classNamePrefix="select"
         placeholder="Select Labels"
         isLoading={isLoading || isFetching}

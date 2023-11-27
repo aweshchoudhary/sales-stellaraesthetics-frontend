@@ -92,8 +92,8 @@ export default function StageSelect({
     <div className="mb-5">
       <label className="block mb-1 text-sm">Stages</label>
       <Select
-        id="pipelineId"
-        name="pipelineId"
+        id="currentStageId"
+        name="currentStageId"
         classNamePrefix="select"
         placeholder="Select Stages"
         isLoading={isLoading || isFetching}

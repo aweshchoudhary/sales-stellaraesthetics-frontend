@@ -52,7 +52,7 @@ export default function DealSelect({
       if (!data?.data) return;
       data?.data.forEach((item: DealInterface) => {
         const option = {
-          label: item.title,
+          label: item.name,
           value: item.id,
         };
         if (!compare.length) {

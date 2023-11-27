@@ -3,22 +3,22 @@ import { mainApi } from "./main.api";
 export const contactApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     getContact: builder.query<any, string>({
-      query: (id) => `/contact/${id}`,
+      query: (id) => `/contacts/${id}`,
       providesTags: (result, error, id) => [{ type: "contact", id }],
       transformResponse: (response: { data: any }) => {
         return response.data;
       },
     }),
-    getContacts: builder.query<any[], Record<string, any>>({
+    getContacts: builder.query<any, Record<string, any>>({
       query: (params) => ({
-        url: "/contact/",
+        url: "/contacts/",
         params,
       }),
       providesTags: ["contact"],
     }),
     createContact: builder.mutation<any, any>({
       query: (data) => ({
-        url: "/contact/",
+        url: "/contacts/",
         method: "POST",
         body: data,
       }),
@@ -26,7 +26,7 @@ export const contactApi = mainApi.injectEndpoints({
     }),
     updateContact: builder.mutation<any, any>({
       query: (data) => ({
-        url: `/contact/${data.id}`,
+        url: `/contacts/${data.id}`,
         method: "PUT",
         body: data,
       }),
@@ -34,7 +34,7 @@ export const contactApi = mainApi.injectEndpoints({
     }),
     deleteContact: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/contact/${id}`,
+        url: `/contacts/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: [{ type: "contact" }],
@@ -44,6 +44,7 @@ export const contactApi = mainApi.injectEndpoints({
 
 export const {
   useGetContactQuery,
+  useGetContactsQuery,
   useCreateContactMutation,
   useDeleteContactMutation,
   useUpdateContactMutation,

@@ -48,6 +48,7 @@ export default function AddNewDeal({
   });
 
   const handleSubmit = async (values: NewDealInterface) => {
+    console.log(values);
     await addDeal(values);
     handleCancel();
   };
@@ -230,13 +231,7 @@ const AddNewContactModel = ({
   });
 
   const handleSubmit = async (values: NewContactInterface) => {
-    const response = await addContact(values);
-    const res: any = response;
-    setSelectedContact((prev) => [
-      ...prev,
-      { label: res?.data?.contactPerson, value: res?.data?._id },
-    ]);
-    handleCancel();
+    await addContact(values);
   };
 
   const handleCancel = () => {
@@ -247,6 +242,14 @@ const AddNewContactModel = ({
   useEffect(() => {
     let isMounted = true;
     if (isMounted && addContactStates.isSuccess) {
+      setSelectedContact((prev) => [
+        ...prev,
+        {
+          label: addContactStates.data.data.contactPerson,
+          value: addContactStates.data.data.id,
+        },
+      ]);
+      handleCancel && handleCancel();
       formik.resetForm();
       toast.success("New Contact Added Successfully");
     }

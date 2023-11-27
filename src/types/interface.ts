@@ -48,16 +48,17 @@ export interface StageInterface extends BaseModel {
 }
 
 export interface DealInterface extends BaseModel {
-  title: string;
-  desc: string;
+  name: string;
+  desc?: string;
   value: number;
   currency: string;
-  currentStage: string;
-  label: LabelInterface;
+  currentStageId: string;
+  label?: LabelInterface;
+  labelId: string;
   expectedClosingDate: Date;
   status: string;
   pipelineId: string;
-  contacts: ContactInterface[];
+  contacts: string[];
   items: string;
   notes: NoteInterface[];
   activities: ActivityInterface[];
@@ -107,11 +108,10 @@ export interface ActivityInterface extends BaseModel {
 }
 
 export interface NoteInterface extends BaseModel {
-  pipelineId: string;
-  noteBody: string;
+  note: string;
   deals: DealInterface[];
   contacts: ContactInterface[];
-  creator: User;
+  creator: string;
 }
 
 export interface FileInterface extends BaseModel {

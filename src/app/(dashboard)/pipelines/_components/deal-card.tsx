@@ -18,15 +18,17 @@ export default function DealCard({ dealId }: Props) {
     isSuccess,
   } = useGetDealQuery({
     id: dealId,
-    params: { populate: "items contacts label" },
+    filters: {
+      populate: JSON.stringify({ label: true }),
+    },
   });
 
   const [total, setTotal] = useState<number>(0);
 
-  if (isSuccess)
+  if (isSuccess && deal?.id)
     return (
       <Link
-        href={"/deals/" + deal?._id}
+        href={"/deals/" + deal.id}
         className={
           "cursor-pointer w-full bg-background relative border mb-1 p-2 flex flex-col gap-2"
         }
@@ -38,8 +40,8 @@ export default function DealCard({ dealId }: Props) {
               style={{ background: deal.label.color }}
             />
           ) : null}
-          <h4 className="font-medium">{deal.title}</h4>
-          <DealContacts contacts={deal.contacts} />
+          <h4 className="font-medium">{deal.name}</h4>
+          {/* <DealContacts contacts={deal.contacts} /> */}
           <div className="activity absolute top-2 right-2">
             {/* <ActivityStatus dealId={deal._id} /> */}
           </div>
@@ -56,17 +58,17 @@ export default function DealCard({ dealId }: Props) {
             <Tooltip id="date-tooltip" className="tooltip" delayShow={100} />
           </div>
           <div className="amount flex items-center">
-            <DealTotal
+            {/* <DealTotal
               items={deal.items}
               value={deal.value}
               // currency={deal.currency}
               total={total}
               setTotal={setTotal}
-            />
+            /> */}
           </div>
           <div
             data-tooltip-id="product-tooltip"
-            data-tooltip-content={"Products " + deal.items.length}
+            data-tooltip-content={"Products " + deal?.items?.length}
             className="flex items-center gap-2"
           >
             <Icon icon="solar:box-minimalistic-outline" className="text-base" />

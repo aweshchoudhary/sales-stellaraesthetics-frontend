@@ -20,7 +20,7 @@ export default function EditStages({ pipeline }: Props) {
     isFetching,
     isError,
   } = useGetStagesQuery({
-    filters: JSON.stringify([{ id: "pipelineId", value: pipeline._id }]),
+    filters: JSON.stringify([{ id: "pipelineId", value: pipeline.id }]),
     data: true,
     sort: JSON.stringify([{ id: "position", desc: false }]),
   });
@@ -32,7 +32,7 @@ export default function EditStages({ pipeline }: Props) {
     if (!result.destination) return;
     const { destination, draggableId } = result;
     await reorderStages({
-      pipelineId: pipeline._id,
+      pipelineId: pipeline.id,
       data: {
         stageId: draggableId,
         newPosition: destination.index,
@@ -60,8 +60,8 @@ export default function EditStages({ pipeline }: Props) {
                 {data?.data?.length ? (
                   data?.data?.map((stage: StageInterface) => (
                     <Draggable
-                      key={stage._id}
-                      draggableId={stage._id}
+                      key={stage.id}
+                      draggableId={stage.id}
                       index={+stage.position}
                     >
                       {(provided) => (
@@ -69,7 +69,7 @@ export default function EditStages({ pipeline }: Props) {
                           provided={provided}
                           // length={data.length}
                           stage={stage}
-                          pipelineId={pipeline._id}
+                          pipelineId={pipeline.id}
                         />
                       )}
                     </Draggable>

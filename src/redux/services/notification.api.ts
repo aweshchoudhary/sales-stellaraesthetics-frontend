@@ -4,7 +4,7 @@ export const notificationApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     createNotification: builder.mutation({
       query: (data) => ({
-        url: "/notification/add",
+        url: "/notifications/",
         method: "POST",
         body: data,
       }),
@@ -12,7 +12,7 @@ export const notificationApi = mainApi.injectEndpoints({
     }),
     getNotification: builder.query({
       query: (data) => ({
-        url: "/notification/get-notification/" + data.id,
+        url: "/notifications/" + data.id,
         params: data.params,
       }),
       providesTags: ["notification"],
@@ -22,14 +22,14 @@ export const notificationApi = mainApi.injectEndpoints({
     }),
     getNotifications: builder.query({
       query: (params) => ({
-        url: "/notification/get-notifications/",
+        url: "/notifications/",
         params,
       }),
       providesTags: ["notification"],
     }),
     updateNotification: builder.mutation({
       query: (data) => ({
-        url: "/notification/update/" + data.id,
+        url: "/notifications/" + data.id,
         method: "PUT",
         body: data.update,
       }),
@@ -37,7 +37,7 @@ export const notificationApi = mainApi.injectEndpoints({
     }),
     deleteNotification: builder.mutation({
       query: (id) => ({
-        url: "/notification/delete/" + id,
+        url: "/notifications/" + id,
         method: "DELETE",
       }),
       invalidatesTags: ["notification"],

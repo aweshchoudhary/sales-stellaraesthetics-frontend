@@ -33,10 +33,10 @@ export default function ContactSelect({
       const res = await getContacts({ search: search, data: true });
       const mainOptions: any = { label: "Open Contacts", options: [] };
       const otherOptions: any = { label: "Other Contacts", options: [] };
+      console.log(res);
+      if (!res.data?.data) return;
 
-      if (!res.data) return;
-
-      res.data.map((item: ContactInterface) => {
+      res.data?.data.map((item: ContactInterface) => {
         const option = {
           label: item.contactPerson,
           value: item.id,
@@ -58,19 +58,19 @@ export default function ContactSelect({
       );
     };
     const interval = setTimeout(
-      () => search.length > 2 && searchDataFn(search),
+      () => search.length > 0 && searchDataFn(search),
       500
     );
     return () => {
       clearTimeout(interval);
     };
-  }, [search, compare, getContacts]);
+  }, [search]);
 
   useEffect(() => {
     const preFetchData = async () => {
-      const { data } = await getContacts({ data: true });
-      if (data?.length !== 0) {
-        const items = data?.map((item: ContactInterface) => {
+      const { data } = await getContacts({});
+      if (data?.data?.length > 0) {
+        const items = data.data.map((item: ContactInterface) => {
           return {
             label: item.contactPerson,
             value: item.id,
